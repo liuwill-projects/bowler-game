@@ -1,0 +1,70 @@
+group 'con.liuwill'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: "kotlin"
+
+apply plugin: 'jdepend'
+apply plugin: 'findbugs'
+apply plugin: "kotlin"
+
+buildscript	{
+    ext.kotlin_version = '1.0.0'
+    repositories {
+        maven{
+            url "http://localhost:8081/nexus/content/groups/public/"
+        }
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+
+    jcenter()
+    maven{
+        url "http://localhost:8081/nexus/content/groups/public/"
+    }
+}
+
+dependencies {
+     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+
+    testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+    testCompile	'junit:junit:4.12'
+    testCompile group: 'org.testng', name: 'testng', version: '6.9.8'
+    testCompile ('org.mockito:mockito-all:1.10.19'){ exclude group: 'org.hamcrest' }
+}
+
+/*test {
+    useTestNG{
+        suites 'src/test/resources/testng.xml'
+        useDefaultListeners = true
+    }
+}*/
+
+findbugs{
+    ignoreFailures=true
+    findbugsTest.enabled=false
+
+}
+
+tasks.withType(FindBugs) {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
+
+task createJavaProject << {
+    sourceSets*.java.srcDirs*.each { it.mkdirs() }
+    sourceSets*.resources.srcDirs*.each { it.mkdirs()}
+}

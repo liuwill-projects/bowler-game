@@ -1,0 +1,17 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="TestAll">
+    <test name="TestBowler" enabled="true">
+        <groups>
+            <run>
+                <include name="game"/>
+                <include name="bowler"/>
+                <exclude name="exclude"/>
+            </run>
+        </groups>
+
+        <classes>
+            <class name="com.liuwill.testng.bowlerGame.BowlerTest"/>
+        </classes>
+    </test>
+
+</suite>
